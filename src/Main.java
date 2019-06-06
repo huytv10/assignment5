@@ -27,9 +27,10 @@ public class Main {
             e.printStackTrace();
         }
 
-//        checkUserPassword(user, password, connection);
+        checkUserPassword(user, password, connection);
 //        register(connection, new User("a", "111", "a@gmail.com"));
-        getUserList(connection);
+//        edit(connection, new User(4,"b","bbb","bbb@gmail.com"));
+//        getUserList(connection);
 
 
     }
@@ -97,6 +98,29 @@ public class Main {
             stmt.setString(3, email);
 
             stmt.execute();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            finallys(conn);
+        }
+    }
+
+    static void edit(Connection conn, User u) {
+        try {
+            int id_ = u.getId();
+            String userName = u.getUser();
+            String password = u.getPassword();
+            String email = u.getEmail();
+
+
+            String update = "UPDATE user SET user = ?,password = ?, email = ? where id = ?";
+            PreparedStatement preparedStmt = conn.prepareStatement(update);
+            preparedStmt.setString(1, userName);
+            preparedStmt.setString(2, password);
+            preparedStmt.setString(3, email);
+            preparedStmt.setInt(4, id_);
+            preparedStmt.executeUpdate();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
